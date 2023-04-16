@@ -1,5 +1,5 @@
 ==============================
-Soluzione eID basata sulla CIE 
+Soluzione eID CIE 
 ==============================
 
 Lo schema di autenticazione Entra con CIE é di tipo Single Sign-On (SSO) federato e dunque prevede l'introduzione di un gestore dell'identitá dell'utente, un Identity Provider (IdP), al quale i fornitori di servizi online, Service Provider (SP), richiedono, previa federazione, la verifica dell'identitá dell'utente. 
