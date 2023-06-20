@@ -1,60 +1,58 @@
 # This is a basic workflow to help you get started with Actions
 
-name: gh-pages
-
+name: gh-pages-pr
+concurrency: preview-${{ github.ref }}
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ "master" ]
+    branches:
+      - '*'
+  #    - master                            # default branch
+  #    - prova
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  #  tags:
+  #    - 'v[0-9]+.[0-9]+.[0-9]+'         # semantic versions
+
+
+  workflow_dispatch:                    # manual trigger  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
+    
+    #if: github.event_name == 'push'
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4.6.0
         with:
           python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          clean: true
+      
 
       # Runs a single command using the runners shell
-      - name: Run a script
+      - name: Build 
         run: |-
-          pip install -r requirements.txt
-          sphinx-build -b html -d html/it/doctrees . html/master
+          pip install -r requirements.txt && sphinx-build -b html -d html/doctrees . preview-${{ github.ref }}/html/
           touch html/.nojekyll
-          echo '
-          <html>
-          <head>
-            <title>CIE eID - Manuale Tecnico</title>
-            <meta name="viewport" content="initial-scale=1.0">
-          </head>
-          <body>
-          <h1>CIE eID - Manuale Tecnico</h1>
-          
-          <ul>
-            <li><a href="master/">Master Version</a></li>
-          </ul>
-          </body>
-          </html>' > html/index.html
-
 
       - name: Deploy to GitHub Pages
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          target_branch: gh-pages
-          build_dir: html
+          folder: .
+          branch: gh-pages
+          #clean-exclude: pr-preview
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
