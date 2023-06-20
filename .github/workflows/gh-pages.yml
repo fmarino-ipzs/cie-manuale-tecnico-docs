@@ -48,12 +48,11 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: crazy-max/ghaction-github-pages@v2
         with:
-          folder: preview-${{ github.ref }}/.
-          branch: gh-pages
-          clean: false
-          #clean-exclude: pr-preview
+          target_branch: gh-pages
+          build_dir: preview-${{ github.ref }}/html
+          keep_history: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
