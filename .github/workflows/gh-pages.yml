@@ -52,6 +52,7 @@ jobs:
         with:
           folder: preview-${{ github.ref }}/.
           branch: gh-pages
+          clean: false
           #clean-exclude: pr-preview
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
