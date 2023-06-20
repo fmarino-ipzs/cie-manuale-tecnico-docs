@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: gh-pages
+concurrency: preview-${{ github.ref }}
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+      - '*'
+  #    - master                            # default branch
+  #    - prova
+
+  #  tags:
+  #    - 'v[0-9]+.[0-9]+.[0-9]+'         # semantic versions
+
+
+  workflow_dispatch:                    # manual trigger  
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    
+    #if: github.event_name == 'push'
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/setup-python@v4.6.0
+        with:
+          python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          clean: true
+      
+
+      # Runs a single command using the runners shell
+      - name: Build 
+        run: |-
+          pip install -r requirements.txt && sphinx-build -b html -d html/doctrees . preview-${{ github.ref }}/html/
+          touch html/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: preview-${{ github.ref }}/.
+          branch: gh-pages
+          #clean-exclude: pr-preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
