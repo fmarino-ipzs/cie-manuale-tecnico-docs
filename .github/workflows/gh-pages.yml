@@ -51,8 +51,8 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
-          build_dir: preview-${{ github.ref }}/html
-          keep_history: true
+          build_dir: prova2/html
+          keep_history: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
