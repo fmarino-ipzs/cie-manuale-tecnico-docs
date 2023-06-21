@@ -43,16 +43,16 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build 
         run: |-
-          pip install -r requirements.txt && sphinx-build -b html -d html/doctrees . preview-${{ github.ref }}/html/
-          touch html/.nojekyll
+          pip install -r requirements.txt && sphinx-build -b html -d html/doctrees . build/preview-${{ github.ref }}/html/
+          touch build/preview-${{ github.ref }}/html/.nojekyll
 
       - name: Deploy to GitHub Pages
         if: success()
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: crazy-max/ghaction-github-pages@v2
         with:
-          folder: preview-${{ github.ref }}/.
-          branch: gh-pages
-          #clean-exclude: pr-preview
+          target_branch: gh-pages
+          build_dir: build/
+          keep_history: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
