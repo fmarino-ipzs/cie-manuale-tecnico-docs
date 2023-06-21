@@ -7,7 +7,7 @@ Manuale tecnico per i fornitori di Servizi Pubblici e Privati
    \makeatletter\@openrightfalse
 	\chapter{Introduzione}
 
-MASTER
+MASTER!!
 
 La Carta di Identità Elettronica (CIE), rilasciata dallo Stato italiano, grazie alla presenza di un chip a radiofrequenze nel quale sono contenuti i dati personali e biometrici del titolare e un certificato digitale di autenticazione, estende il tradizionale concetto di identità fisica, configurandosi come strumento di identità digitale che soddisfa i requisiti massimi di sicurezza. 
 Interoperabile anche in ambito europeo, lo schema di identificazione "Entra con CIE",  in analogia a quanto previsto da SPID, realizza un sistema di autenticazione federato per l'identificazione dei cittadini presso i soggetti pubblici e privati che aderiscono allo schema. 
