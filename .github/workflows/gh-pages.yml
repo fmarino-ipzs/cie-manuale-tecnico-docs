@@ -48,13 +48,7 @@ jobs:
 
       - name: Create GH page index
         run: |-
-          git for-each-ref --shell --format="ref=%(refname)" refs/heads | \
-          while read entry
-          do
-            eval "$entry"
-            echo `dirname $ref`
-          done
-          
+         git show-ref --head --dereference          
           echo '
           <html>
           <head>
