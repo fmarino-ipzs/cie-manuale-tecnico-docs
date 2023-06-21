@@ -43,9 +43,29 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build 
         run: |-
-          pip install -r requirements.txt && sphinx-build -b html -d html/doctrees . build/preview-${{ github.ref }}/html/
+          pip install -r requirements.txt && sphinx-build -b html -d build/preview-${{ github.ref }}/html/doctrees . build/preview-${{ github.ref }}/html/
           touch build/preview-${{ github.ref }}/html/.nojekyll
 
+      - name: Create GH page index
+        run: |-
+          echo "$(ls)"
+          echo '
+          <html>
+          <head>
+            <title>Italian eIDAS Wallet Technical Specifications</title>
+            <meta name="viewport" content="initial-scale=1.0">
+          </head>
+          <body>
+          <h1>Italian eIDAS Wallet Technical Specifications</h1>
+          
+          <ul>
+            <li><a href="it/">Italian version</a></li>
+            <li><a href="en/">English version</a></li>
+          </ul>
+          </body>
+          </html>' > build/index.html
+          
+          
       - name: Deploy to GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
